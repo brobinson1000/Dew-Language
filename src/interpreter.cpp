@@ -9,11 +9,15 @@
 #include <algorithm>
 
 
-
+// Heap and Stack Allocated Data
 std::unordered_map<std::string, std::variant<int, double, std::string>> variables;
 
 using varType = std::variant<int, double, std::string>;
+
 std::unordered_map<std::string, varType*> heap;
+
+
+
 
 auto printVar = [](auto& var) {
     if (std::holds_alternative<int>(var))
@@ -23,6 +27,9 @@ auto printVar = [](auto& var) {
     else
         std::cout << std::get<std::string>(var) << "\n";
 };
+
+
+
 
 void displayCommand(std::istringstream& iss) {
     std::string word;
@@ -39,11 +46,10 @@ void displayCommand(std::istringstream& iss) {
         printVar(it_->second);
         return;
     }
-
-
-   
-
 }
+
+
+
 
 void moveCommand(std::istringstream& iss) {
     std::string val, dest;
@@ -55,6 +61,9 @@ void moveCommand(std::istringstream& iss) {
         variables[dest] = val;
     }   
 }    
+
+
+
 
 void movehCommand(std::istringstream& iss) {
     std::string val, dest;
@@ -68,6 +77,9 @@ void movehCommand(std::istringstream& iss) {
     }
 }
 
+
+
+
 void freehCommand(std::istringstream& iss) {
     std::string varName;
     iss >> varName;
@@ -80,6 +92,7 @@ void freehCommand(std::istringstream& iss) {
         
     } 
 }
+
 
 
 
@@ -109,6 +122,7 @@ void getCommand(std::istringstream& iss) {
 
     variables[varName] = inputValue; // fallback to string
 }
+
 
 
 
