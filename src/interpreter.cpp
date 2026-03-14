@@ -15,6 +15,14 @@ std::unordered_map<std::string, std::variant<int, double, std::string>> variable
 using varType = std::variant<int, double, std::string>;
 std::unordered_map<std::string, varType*> heap;
 
+auto printVar = [](auto& var) {
+    if (std::holds_alternative<int>(var))
+        std::cout << std::get<int>(var) << "\n";
+    else if (std::holds_alternative<double>(var))
+        std::cout << std::get<double>(var) << "\n";
+    else
+        std::cout << std::get<std::string>(var) << "\n";
+};
 
 void displayCommand(std::istringstream& iss) {
     std::string word;
@@ -22,39 +30,18 @@ void displayCommand(std::istringstream& iss) {
 
     auto it = heap.find(word);
     if (it != heap.end()) {
-        auto &var = *(it->second);
-        if (std::holds_alternative<int>(var)) { 
-            std::cout << std::get<int>(var); 
-        } else if(std::holds_alternative<double>(var)) { 
-            std::cout << std::get<double>(var);
-        } else { 
-            std::cout << std::get<std::string>(var);
-
-            std::cout << "\n";
-            return;
-        }
+        printVar(*(it->second));
+        return;
     }
 
     auto it_ = variables.find(word);
     if ( it_ != variables.end()) {
-        auto &var = it_->second;
-        if (std::holds_alternative<int>(var)) { 
-            std::cout << std::get<int>(var); 
-        } else if (std::holds_alternative<double>(var)) {  
-            std::cout << std::get<double>(var); 
-        } else { 
-            std::cout << std::get<std::string>(var);
-        
-            std::cout << "\n";
-            return;   
-        }
-
-        std::string rest;
-        std::getline(iss, rest);
-        std::cout << word << rest << "\n";
+        printVar(it_->second);
+        return;
+    }
 
 
-    }   
+   
 
 }
 
