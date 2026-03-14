@@ -48,7 +48,10 @@ void displayCommand(std::istringstream& iss) {
     }
 }
 
-
+void display_newlineCommand(std::istringstream& iss) {
+    std::cout << "\n";
+    std::cout.flush();
+}   
 
 
 void moveCommand(std::istringstream& iss) {
@@ -135,6 +138,7 @@ int main() {
     commands["MOVE"] = moveCommand;
     commands["MOVEH"] = movehCommand;
     commands["FREEH"] = freehCommand; 
+    commands["DISPLAY_NEWLINE"] = display_newlineCommand;
 
     std::string line;
     while(std::getline(std::cin, line)) {
