@@ -79,11 +79,21 @@ void movehCommand(std::istringstream& iss) {
     } else {
         heap[dest] = new varType(val);
     }
-
-
-
-
 }
+
+void freehCommand(std::istringstream& iss) {
+    std::string varName;
+    iss >> varName;
+
+    auto search = heap.find(varName);
+    if ( search != heap.end()) {
+        delete search->second;
+        search->second = nullptr;
+        heap.erase(search);
+        
+    } 
+}
+
 
 
 void getCommand(std::istringstream& iss) {
@@ -123,10 +133,11 @@ int main() {
     commands["GET"] = getCommand;
     commands["MOVE"] = moveCommand;
     commands["MOVEH"] = movehCommand;
-    
+    commands["FREEH"] = freehCommand; 
 
     std::string line;
     while(std::getline(std::cin, line)) {
+        std::transform(line.begin(), line.end(), line.begin(), [](unsigned char c) { return std::toupper(c);});
         std::istringstream iss(line);
         std::string cmd;
         iss >> cmd;
