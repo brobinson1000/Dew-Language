@@ -31,7 +31,6 @@ auto printVar = [](auto& var) {
 
 
 
-
 void displayCommand(std::istringstream& iss) {
     std::string word;
     iss >> word;
