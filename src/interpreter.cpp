@@ -20,12 +20,13 @@ std::unordered_map<std::string, varType*> heap;
 
 
 auto printVar = [](auto& var) {
-    if (std::holds_alternative<int>(var))
+    if (std::holds_alternative<int>(var)) {
         std::cout << std::get<int>(var) << "\n";
-    else if (std::holds_alternative<double>(var))
+    } else if (std::holds_alternative<double>(var)) {
         std::cout << std::get<double>(var) << "\n";
-    else
+    } else {
         std::cout << std::get<std::string>(var) << "\n";
+}
 };
 
 
