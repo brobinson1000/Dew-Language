@@ -1,8 +1,10 @@
 #!/bin/bash
 
-clang-tidy -fix -checks=google-readability-braces-around-statements -p=build src/interpreter.cpp
+
+rm -rf build
+cmake -B build -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+cmake --build build
 
 
-cd build || exit 1
+clang-tidy -fix -checks=google-readability-braces-around-statements -p=build src/*.cpp
 
-make -j$(nproc) && ./dew
