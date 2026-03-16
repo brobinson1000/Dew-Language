@@ -2,7 +2,7 @@
 
 - [ ] Create Ocaml like output funcs
 - [ ] display_string
-- [ ] display_endline
+- [x] display_endline
 - [ ] display_float
 - [ ] display_char
 - [ ] display_int
