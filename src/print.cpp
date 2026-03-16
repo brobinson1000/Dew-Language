@@ -47,6 +47,7 @@ void displayCommand(std::istringstream& iss) {
         printVar(it_->second);
         return;
     }
+
 }
 
 void display_newlineCommand(std::istringstream& iss) {
@@ -68,8 +69,10 @@ void display_endlineCommand(std::istringstream& iss) {
         printStringNL(it_->second);
         return;
     }
-
-
+    
+    std::string rest_of_line;
+    std::getline(iss, rest_of_line);
+    std::cout << word << rest_of_line << "\n";
 
 
 }
