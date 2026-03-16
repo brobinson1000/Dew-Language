@@ -7,52 +7,10 @@
 #include <memory>
 #include <vector>
 #include <algorithm>
+#include "print.h"
 
-
-// Heap and Stack Allocated Data
-std::unordered_map<std::string, std::variant<int, double, std::string>> variables;
-
-using varType = std::variant<int, double, std::string>;
-
+std::unordered_map<std::string, varType> variables;
 std::unordered_map<std::string, varType*> heap;
-
-
-
-
-auto printVar = [](auto& var) {
-    if (std::holds_alternative<int>(var)) {
-        std::cout << std::get<int>(var) << "\n";
-    } else if (std::holds_alternative<double>(var)) {
-        std::cout << std::get<double>(var) << "\n";
-    } else {
-        std::cout << std::get<std::string>(var) << "\n";
-}
-};
-
-
-
-void displayCommand(std::istringstream& iss) {
-    std::string word;
-    iss >> word;
-
-    auto it = heap.find(word);
-    if (it != heap.end()) {
-        printVar(*(it->second));
-        return;
-    }
-
-    auto it_ = variables.find(word);
-    if ( it_ != variables.end()) {
-        printVar(it_->second);
-        return;
-    }
-}
-
-void display_newlineCommand(std::istringstream& iss) {
-    std::cout << "\n";
-    std::cout.flush();
-}   
-
 
 void moveCommand(std::istringstream& iss) {
     std::string val, dest;
@@ -139,13 +97,16 @@ int main() {
     commands["MOVEH"] = movehCommand;
     commands["FREEH"] = freehCommand; 
     commands["DISPLAY_NEWLINE"] = display_newlineCommand;
+    commands["DISPLAY_ENDLINE"] = display_endlineCommand;
+
+
 
     std::string line;
     while(std::getline(std::cin, line)) {
-        std::transform(line.begin(), line.end(), line.begin(), [](unsigned char c) { return std::toupper(c);});
         std::istringstream iss(line);
         std::string cmd;
         iss >> cmd;
+        std::transform(cmd.begin(), cmd.end(), cmd.begin(), [](unsigned char c) { return toupper(c);});
 
         auto it = commands.find(cmd);
         if ( it != commands.end()) {
