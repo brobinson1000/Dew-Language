@@ -5,7 +5,10 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 project(DewLang VERSION 1.0 DESCRIPTION "Dew Language" LANGUAGES CXX)
 
-add_executable(dew src/interpreter.cpp)
+add_executable(dew 
+        src/interpreter.cpp
+        src/print.cpp
+        )
 
 target_include_directories(dew PUBLIC include)
 
