@@ -40,7 +40,7 @@ git clone https://github.com/brobinson1000/Dew-Language.git
 - [ ] Create Ocaml like output funcs
 - [ ] display_string
 - [x] display_endline
-- [ ] display_float
+- [x] display_float
 - [ ] display_char
 - [ ] display_int
 - [x] display_newline
