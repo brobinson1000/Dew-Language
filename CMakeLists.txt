@@ -3,11 +3,12 @@ cmake_minimum_required(VERSION 3.15...4.1)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-project(DewLang VERSION 1.0 DESCRIPTION "Dew Language" LANGUAGES CXX)
+project(DewLang VERSION 1.0 DESCRIPTION "Dew Language" LANGUAGES C CXX)
 
 add_executable(dew 
         src/interpreter.cpp
         src/print.cpp
+        src/system.c
         )
 
 target_include_directories(dew PUBLIC include)
