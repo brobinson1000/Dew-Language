@@ -9,7 +9,7 @@
 #include <algorithm>
 
 #include "print.h"
-
+#include "interpreter_error.h"
 
 
 extern "C" { 
@@ -130,7 +130,7 @@ void getCommand(std::istringstream& iss) {
     iss >> varName;
 
     if (varName.empty()) {
-        std::cerr << "ERROR: No variable specified\n";
+        log("No argument provided for GET");
         return;
     }
 
@@ -156,7 +156,7 @@ void sysCommand(std::istringstream& iss) {
     std::string cmd;
     std::getline(iss >> std::ws, cmd);
     if (cmd.empty()) {
-        std::cerr << "NO COMMAND";
+        log("No argument provided for SYSTEM");
         return;
     }
     systemCommand(cmd.c_str());
@@ -168,11 +168,10 @@ void timesleepCommand(std::istringstream& iss) {
 
     if (cmd.empty()) {
         return;
-        std::cerr << "NO COMMAND";
+        log("No argument provided for SLEEP");
     } 
     
     sleepCommand(cmd.c_str());
-    std::cout << "DONE";
 }
 
 varType ceilFunc(std::istringstream& iss) {
@@ -187,7 +186,7 @@ void displayCeil(std::istringstream& iss) {
     std::string arg;
     iss >> arg;
     if (arg.empty()) {
-        std::cerr << "NO ARGUMENT PROVIDED FOR CEIL\n";
+        log("No argument provided for DISPLAY_CEIL");
         return;
     }
     int result = math_ceil(arg.c_str());
@@ -208,7 +207,7 @@ void displayFloor(std::istringstream& iss) {
     std::string arg;
     iss >> arg;
     if (arg.empty()) {
-        std::cerr << "No argument provided for FLOOR\n";
+        log("No argument provided for DISPLAY_FLOOR");
         return;
     }
     int result = math_floor(arg.c_str());
@@ -242,7 +241,7 @@ int main() {
     commands["DISPLAY_NEWLINE"] = display_newlineCommand;
     commands["DISPLAY_ENDLINE"] = display_endlineCommand;
     commands["DISPLAY_FLOAT"] = display_floatCommand;
-    commands["DISPLAY_PI"] = display_pi;
+    //commands["DISPLAY_PI"] = display_pi;
     commands["SYSTEM"] = sysCommand;
     commands["SLEEP"] = timesleepCommand;    
     commands["DISPLAY_FLOOR"] = displayFloor;
