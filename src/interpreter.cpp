@@ -191,6 +191,18 @@ varType floorFunc(std::stringstream& iss) {
     return result;
 }
 
+void displayFloor(std::istringstream& iss) {
+    std::string arg;
+    iss >> arg;
+    if (arg.empty()) {
+        std::cerr << "No argument provided for FLOOR\n";
+        return;
+    }
+    int result = math_floor(arg.c_str());
+    std::cout << result << std::endl;
+}
+
+
 varType piFunc(std::istringstream& iss) {
     std::string extra;
     if (iss >> extra) {
@@ -226,6 +238,7 @@ int main() {
     commands["DISPLAY_PI"] = display_pi;
     commands["SYSTEM"] = sysCommand;
     commands["SLEEP"] = timesleepCommand;    
+    commands["DISPLAY_FLOOR"] = displayFloor;
 
     functions["CEIL"] = ceilFunc;
     functions["PI"] = piFunc;
