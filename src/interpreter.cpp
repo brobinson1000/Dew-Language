@@ -224,12 +224,6 @@ varType piFunc(std::istringstream& iss) {
     return math_pi();
 }
 
-void display_pi(std::istringstream& iss) {
-    std::string cmd;
-    std::getline(iss, cmd);
-
-    std::cout << math_pi();
-}
 
 
 int main() {
