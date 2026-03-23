@@ -183,6 +183,19 @@ varType ceilFunc(std::istringstream& iss) {
     return result;
 }
 
+void displayCeil(std::istringstream& iss) {
+    std::string arg;
+    iss >> arg;
+    if (arg.empty()) {
+        std::cerr << "NO ARGUMENT PROVIDED FOR CEIL\n";
+        return;
+    }
+    int result = math_ceil(arg.c_str());
+    std::cout << result << "\n";
+}
+
+
+
 varType floorFunc(std::stringstream& iss) {
     std::string arg;
     iss >> arg;
@@ -199,7 +212,7 @@ void displayFloor(std::istringstream& iss) {
         return;
     }
     int result = math_floor(arg.c_str());
-    std::cout << result << std::endl;
+    std::cout << result << "\n";
 }
 
 
@@ -239,6 +252,8 @@ int main() {
     commands["SYSTEM"] = sysCommand;
     commands["SLEEP"] = timesleepCommand;    
     commands["DISPLAY_FLOOR"] = displayFloor;
+    commands["DISPLAY_CEIL"] = displayCeil;
+
 
     functions["CEIL"] = ceilFunc;
     functions["PI"] = piFunc;
