@@ -1,4 +1,4 @@
-name: CMake Build & Test
+name: C++20 Build & Test
 
 on:
   push:
@@ -11,33 +11,34 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Checkout code
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v3
 
-      # Install dependencies
+      - name: List source files (debug)
+        run: |
+          echo "SRC files:"
+          ls -R src
+          echo "TEST files:"
+          ls -R tests
+
       - name: Install dependencies
         run: |
           sudo apt-get update
           sudo apt-get install -y cmake g++ make libgtest-dev
 
-      # Build GTest library (needed on some Ubuntu versions)
       - name: Build GTest
         run: |
           cd /usr/src/googletest/googletest
           sudo cmake .
           sudo make
-          sudo cp lib/*.a /usr/lib
+          sudo cp lib/*.a /usr/lib/
 
-      # Configure CMake
       - name: Configure CMake
         run: cmake -S . -B build
 
-      # Build project
       - name: Build project
         run: cmake --build build --config Release
 
-      # Run tests
       - name: Run tests
         working-directory: build
         run: ctest --output-on-failure
