@@ -12,6 +12,7 @@ double math_pi(void);
 
 int math_floor(const char* cmd);
 
+
 int math_ceil(const char* cmd);
 
 int math_abs(const char* cmd);

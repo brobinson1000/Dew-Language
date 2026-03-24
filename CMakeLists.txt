@@ -5,17 +5,29 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 project(DewLang VERSION 1.0 DESCRIPTION "Dew Language" LANGUAGES C CXX)
 
-add_executable(dew 
-        src/interpreter.cpp
-        src/print.cpp
-        src/interpreter_error.cpp
-        src/system.c
-        src/timer_utils.c
-        src/math_utils.c
-        )
+# Main exec
+add_executable(dew
+    src/interpreter.cpp
+    src/print.cpp
+    src/interpreter_error.cpp
+    src/system.c
+    src/math_utils.c
+)
 
 target_include_directories(dew PUBLIC include)
 
+# testing
+enable_testing()
 
+find_package(GTest REQUIRED)
+include_directories(${GTEST_INCLUDE_DIRS})
 
+# test exec
+add_executable(math_utils_test
+    tests/math_utils_test.cpp
+    src/math_utils.c
+)
 
+target_include_directories(math_utils_test PUBLIC include)
+target_link_libraries(math_utils_test ${GTEST_LIBRARIES} pthread)
+add_test(NAME MathUtilsTests COMMAND math_utils_test)

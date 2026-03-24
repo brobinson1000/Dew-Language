@@ -7,7 +7,6 @@
 
 
 
-
 const auto printVar = [](auto& var) {
     if (std::holds_alternative<int>(var)) {
        std::cout << std::get<int>(var);
