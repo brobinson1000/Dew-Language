@@ -9,6 +9,7 @@ project(DewLang VERSION 1.0 DESCRIPTION "Dew Language" LANGUAGES C CXX)
 add_executable(dew
     src/interpreter.cpp
     src/print.cpp
+    src/timer_utils.c
     src/interpreter_error.cpp
     src/system.c
     src/math_utils.c
