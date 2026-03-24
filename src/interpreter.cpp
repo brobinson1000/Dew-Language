@@ -19,9 +19,38 @@ extern "C" {
 }
 
 
-// Stack and Heap Storage
+// Stack, Heap, Const Storage
 std::unordered_map<std::string, varType> variables;
 std::unordered_map<std::string, varType*> heap;
+std::unordered_map<std::string, varType> consts;
+
+// check consts space function
+void check_const(const std::string &dest, std::unordered_map<std::string, varType> p) {
+    auto search = p.find(dest);
+    if ( search != p.end()) {
+        log("Variable is declared constant therefore can not be reassigned");
+        return;
+    }
+}
+
+void check_variables(const std::string &dest, std::unordered_map<std::string, varType> p) {
+    auto search = p.find(dest);
+    if ( search != p.end()) {
+        log("Variable name already used on stack");
+        return;
+    }
+}
+
+
+void moveconstCommand(std::istringstream& iss) {
+    std::string val, dest;
+    iss >> val >> dest;
+
+    check_const(dest, consts);
+    
+    consts[dest] = val;
+}
+        
 
 
 
@@ -40,6 +69,15 @@ std::unordered_map<std::string, varType*> heap;
 void moveCommand(std::istringstream& iss) {
     std::string val, dest;
     iss >> val >> dest;
+
+    auto search_ = heap.find(dest);
+    if (search_ != heap.end()) {
+        log("Variable name already used on the heap");
+        return;
+    }
+
+    check_const(dest, consts);
+
     auto search = variables.find(val);
     if (search != variables.end()) {
         variables[dest] = search->second;
@@ -76,6 +114,14 @@ void moveCommand(std::istringstream& iss) {
 void movehCommand(std::istringstream& iss) {
     std::string val, dest;
     iss >> val >> dest;
+
+    auto search_ = variables.find(dest);
+    if ( search_ !=  variables.end()) {
+        log("Variable declared already on the stack");
+        return;
+    }
+
+
 
     auto search = heap.find(val);
     if ( search != heap.end()) {
@@ -236,6 +282,7 @@ int main() {
     commands["DISPLAY"] = displayCommand;
     commands["GET"] = getCommand;
     commands["MOVE"] = moveCommand;
+    commands["MOVE_CONST"] = moveconstCommand;
     commands["MOVEH"] = movehCommand;
     commands["FREEH"] = freehCommand; 
     commands["DISPLAY_NEWLINE"] = display_newlineCommand;
