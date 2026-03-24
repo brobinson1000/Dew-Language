@@ -24,10 +24,10 @@ jobs:
       # Build GTest library (needed on some Ubuntu versions)
       - name: Build GTest
         run: |
-          cd /usr/src/gtest
+          cd /usr/src/googletest/googletest
           sudo cmake .
           sudo make
-          sudo cp *.a /usr/lib
+          sudo cp lib/*.a /usr/lib
 
       # Configure CMake
       - name: Configure CMake
