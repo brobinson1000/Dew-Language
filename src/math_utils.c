@@ -21,6 +21,8 @@ int math_floor(const char* cmd) {
     return f;
 }
 
+
+
 int math_ceil(const char* cmd) {
     double stand_db = atof(cmd);
     
