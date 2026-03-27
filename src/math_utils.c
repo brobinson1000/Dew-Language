@@ -54,7 +54,7 @@ int math_sqrt(const char* cmd) {
     double guess = ( stand_int > 1 ) ? stand_int / 2.0 : 1.0;
     double tolerance = 1e-10;
 
-    while (true) {
+    while (1) {
         new_guess = (guess + stand_int / guess) / 2.0;
 
         if ((new_guess - guess < tolerance) && (guess - new_guess < tolerance)) {
