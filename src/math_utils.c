@@ -68,8 +68,21 @@ int math_sqrt(const char* cmd) {
     return result;
 }
 
+int math_pow(const char* cmd) {
+    int a, b;
+
+    if (sscanf(cmd, "%d %d", &a, &b) == 2) {
+        int result = 1;
+        for(int i = 0; i < b; i++) result *= a;
+
+        return result;
+    }
+}
 
 
+
+// add power pow x^y
+// add hypot sqrt(xpow + y pow2);
 
 
 

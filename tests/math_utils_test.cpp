@@ -38,3 +38,7 @@ TEST(MathUtilsTest, Sqrt) {
     EXPECT_EQ(math_sqrt("64"), 8);
     EXPECT_EQ(math_sqrt("49"), 7);
 }
+
+TEST(MathUtilsTest, Pow) {
+    EXPECT_EQ(math_pow("2 3"), 8);
+}

@@ -19,6 +19,8 @@ int math_abs(const char* cmd);
 
 int math_sqrt(const char* cmd);
 
+int math_pow(const char* cmd);
+
 #ifdef __cplusplus
 }
 #endif
