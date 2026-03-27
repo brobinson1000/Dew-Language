@@ -33,3 +33,8 @@ TEST(MathUtilsTest, Abs) {
 TEST(MathUtilsTest, Pi) {
     EXPECT_DOUBLE_EQ(math_pi(), 3.14159265358979323846);
 }
+
+TEST(MathUtilsTest, Sqrt) {
+    EXPECT_EQ(math_sqrt("64"), 8);
+    EXPECT_EQ(math_sqrt("49"), 7);
+}
