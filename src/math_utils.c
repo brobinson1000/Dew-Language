@@ -43,6 +43,33 @@ int math_abs(const char* cmd) {
   
 }
 
+int math_sqrt(const char* cmd) {
+    int stand_int = atoi(cmd);
+    double new_guess;
+
+    if ( stand_int < 0 ) {
+        return -1;
+    }
+
+    double guess = ( stand_int > 1 ) ? stand_int / 2.0 : 1.0;
+    double tolerance = 1e-10;
+
+    while (true) {
+        new_guess = (guess + stand_int / guess) / 2.0;
+
+        if ((new_guess - guess < tolerance) && (guess - new_guess < tolerance)) {
+            return new_guess;
+        }
+        guess = new_guess;
+    }
+
+    int result = (int)new_guess;
+
+    return result;
+}
+
+
+
 
 
 

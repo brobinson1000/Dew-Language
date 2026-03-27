@@ -42,6 +42,8 @@ void check_variables(const std::string &dest, std::unordered_map<std::string, va
 }
 
 
+
+
 void moveconstCommand(std::istringstream& iss) {
     std::string val, dest;
     iss >> val >> dest;
@@ -220,6 +222,26 @@ void timesleepCommand(std::istringstream& iss) {
     sleepCommand(cmd.c_str());
 }
 
+varType sqrtFunc(std::istringstream& iss) {
+    std::string arg;
+    iss >> arg;
+
+    int sqrt = math_sqrt(arg.c_str());
+    return sqrt;
+}
+
+void displaySqrt(std::istringstream& iss) {
+    std::string arg;
+    iss >> arg;
+    if (arg.empty()) {
+        log("No argument provided for DISPLAY_SQRT");
+        return;
+    }
+    int result = math_sqrt(arg.c_str());
+    std::cout << result << "\n";
+}
+
+
 varType ceilFunc(std::istringstream& iss) {
     std::string arg;
     iss >> arg;
@@ -293,10 +315,11 @@ int main() {
     commands["SLEEP"] = timesleepCommand;    
     commands["DISPLAY_FLOOR"] = displayFloor;
     commands["DISPLAY_CEIL"] = displayCeil;
-
+    commands["DISPLAY_SQRT"] = displaySqrt;
 
     functions["CEIL"] = ceilFunc;
     functions["PI"] = piFunc;
+    functions["SQRT"] = sqrtFunc;
     //functions["FLOOR"] = floorFunc;
 
     std::string line;
