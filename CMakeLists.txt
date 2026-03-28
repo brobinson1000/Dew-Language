@@ -13,6 +13,7 @@ add_executable(dew
     src/interpreter_error.cpp
     src/system.c
     src/math_utils.c
+    src/math_wrapper.cpp
 )
 
 target_include_directories(dew PUBLIC include)
