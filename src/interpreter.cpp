@@ -9,7 +9,7 @@
 #include <algorithm>
 
 #include "print.h"
-#include "interpreter_error.h"
+#include "error_handling.h"
 #include "math_wrapper.h"
 #include "unix_wrapper.h"
 

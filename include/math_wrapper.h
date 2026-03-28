@@ -1,9 +1,6 @@
 #pragma once
 #include <sstream>
 
-#pragma once
-#include <sstream>
-
 // Value-returning wrappers
 double sqrtFunc(std::istringstream& iss);
 int ceilFunc(std::istringstream& iss);

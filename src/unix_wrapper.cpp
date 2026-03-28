@@ -1,9 +1,8 @@
 #include "print.h"
 #include "interpreter.h"
-#include "interpreter_error.h"
+#include "error_handling.h"
 #include <iostream>
 
-#include "interpreter_error.h"
 
 extern "C" { 
 #include "unix_utils.h"

@@ -1,7 +1,7 @@
 #include "math_wrapper.h"
 #include "print.h"
 #include "interpreter.h"
-#include "interpreter_error.h"
+#include "error_handling.h"
 #include <iostream>
 extern "C" {
 #include "math_utils.h"  

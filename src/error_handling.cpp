@@ -1,4 +1,4 @@
-#include "interpreter_error.h"
+#include "error_handling.h"
 #include <iostream>
 
 void log(const std::string_view message, const std::source_location location) {
