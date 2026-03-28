@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-
+#include <math.h>
 
 double math_pi(void) {
     return 3.14159265358979323846;
@@ -63,7 +63,7 @@ int math_sqrt(const char* cmd) {
         guess = new_guess;
     }
 
-    int result = (int)new_guess;
+    double result = (double)new_guess;
 
     return result;
 }
@@ -79,10 +79,20 @@ int math_pow(const char* cmd) {
     }
 }
 
+double math_hypot(const char* cmd) {
+    int a, b;
 
+    if (sscanf(cmd, "%d %d", &a, &b) != 2) {
+        return 0;
+    }
 
-// add power pow x^y
-// add hypot sqrt(xpow + y pow2);
+    double c = (double)(a * a + b * b);
+
+    return (double)sqrt(c);
+    
+}
+        
+
 
 
 
