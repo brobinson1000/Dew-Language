@@ -37,10 +37,6 @@ git clone https://github.com/brobinson1000/Dew-Language.git
 
 ## TODO
 
-- [ ] Create Ocaml like output funcs
-- [ ] display_string
-- [x] display_endline
-- [x] display_float
-- [ ] display_char
-- [ ] display_int
-- [x] display_newline
+- [ ] Math_Utils
+- [ ] Unix_Utils
+- [ ] Clang tidy format
