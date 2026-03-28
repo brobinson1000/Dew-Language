@@ -44,5 +44,5 @@ TEST(MathUtilsTest, Pow) {
 }
 
 TEST(MathUtilsTest, Hypot) {
-    EXPECT_EQ(math_hypot("2 3"), 3.60555);
+    EXPECT_EQ(math_hypot("2 3"),  3.6055512754639891);
 }
