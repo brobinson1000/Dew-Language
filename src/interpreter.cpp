@@ -10,7 +10,7 @@
 
 #include "print.h"
 #include "interpreter_error.h"
-
+#include "math_wrapper.h"
 
 extern "C" { 
 #include "system.h"
@@ -222,74 +222,7 @@ void timesleepCommand(std::istringstream& iss) {
     sleepCommand(cmd.c_str());
 }
 
-varType sqrtFunc(std::istringstream& iss) {
-    std::string arg;
-    iss >> arg;
 
-    int sqrt = math_sqrt(arg.c_str());
-    return sqrt;
-}
-
-void displaySqrt(std::istringstream& iss) {
-    std::string arg;
-    iss >> arg;
-    if (arg.empty()) {
-        log("No argument provided for DISPLAY_SQRT");
-        return;
-    }
-    int result = math_sqrt(arg.c_str());
-    std::cout << result << "\n";
-}
-
-
-varType ceilFunc(std::istringstream& iss) {
-    std::string arg;
-    iss >> arg;
-
-    int result = math_ceil(arg.c_str());
-    return result;
-}
-
-void displayCeil(std::istringstream& iss) {
-    std::string arg;
-    iss >> arg;
-    if (arg.empty()) {
-        log("No argument provided for DISPLAY_CEIL");
-        return;
-    }
-    int result = math_ceil(arg.c_str());
-    std::cout << result << "\n";
-}
-
-
-
-varType floorFunc(std::stringstream& iss) {
-    std::string arg;
-    iss >> arg;
-    
-    int result = math_floor(arg.c_str());
-    return result;
-}
-
-void displayFloor(std::istringstream& iss) {
-    std::string arg;
-    iss >> arg;
-    if (arg.empty()) {
-        log("No argument provided for DISPLAY_FLOOR");
-        return;
-    }
-    int result = math_floor(arg.c_str());
-    std::cout << result << "\n";
-}
-
-
-varType piFunc(std::istringstream& iss) {
-    std::string extra;
-    if (iss >> extra) {
-        std::cerr << "PI does not take arguments\n";
-    }
-    return math_pi();
-}
 
 
 
@@ -316,6 +249,8 @@ int main() {
     commands["DISPLAY_FLOOR"] = displayFloor;
     commands["DISPLAY_CEIL"] = displayCeil;
     commands["DISPLAY_SQRT"] = displaySqrt;
+    commands["DISPLAY_HYPOT"] = displayHypot;
+    commands["DISPLAY_POW"] = displayPow;
 
     functions["CEIL"] = ceilFunc;
     functions["PI"] = piFunc;
