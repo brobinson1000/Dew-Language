@@ -1,5 +1,5 @@
-#ifndef TIMER_UTILS_H
-#define TIMER_UTILS_H
+#ifndef UNIX_UTILS_H
+#define UNIX_UTILS_H
 
 #ifdef __cplusplus
 extern "C" {
@@ -20,6 +20,9 @@ void sleepCommand(const char* cmd);
 
 void timeofdayCommand(const char* cmd);
 
+
+void systemCommand(const char* cmd);
+  
 
 
 #ifdef __cplusplus

@@ -11,12 +11,8 @@
 #include "print.h"
 #include "interpreter_error.h"
 #include "math_wrapper.h"
+#include "unix_wrapper.h"
 
-extern "C" { 
-#include "system.h"
-#include "timer_utils.h"
-#include "math_utils.h"
-}
 
 
 // Stack, Heap, Const Storage
@@ -200,27 +196,6 @@ void getCommand(std::istringstream& iss) {
     variables[varName] = inputValue; // fallback to string
 }
 
-void sysCommand(std::istringstream& iss) {
-    std::string cmd;
-    std::getline(iss >> std::ws, cmd);
-    if (cmd.empty()) {
-        log("No argument provided for SYSTEM");
-        return;
-    }
-    systemCommand(cmd.c_str());
-}
-
-void timesleepCommand(std::istringstream& iss) {
-    std::string cmd;
-    std::getline(iss, cmd);
-
-    if (cmd.empty()) {
-        return;
-        log("No argument provided for SLEEP");
-    } 
-    
-    sleepCommand(cmd.c_str());
-}
 
 
 
