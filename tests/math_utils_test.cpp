@@ -42,3 +42,7 @@ TEST(MathUtilsTest, Sqrt) {
 TEST(MathUtilsTest, Pow) {
     EXPECT_EQ(math_pow("2 3"), 8);
 }
+
+TEST(MathUtilsTest, Hypot) {
+    EXPECT_EQ(math_hypot("2 3"), 3.60555);
+}
