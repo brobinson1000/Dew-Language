@@ -58,6 +58,12 @@ void displayCommand(std::istringstream& iss) {
         return;
     }
 
+    auto it__ = consts.find(word);
+    if ( it__ != consts.end()) {
+        printVar(it__->second);
+        return;
+    }
+
     std::string rest_of_line{};
     std::getline(iss, rest_of_line);
     std::cout << word << rest_of_line;
