@@ -20,22 +20,113 @@ std::unordered_map<std::string, varType> variables;
 std::unordered_map<std::string, varType*> heap;
 std::unordered_map<std::string, varType> consts;
 
+
+
+
+
+
+
+
+
+
+
+
+
+
 // check consts space function
-void check_const(const std::string &dest, std::unordered_map<std::string, varType> p) {
+bool check_const(const std::string &dest, std::unordered_map<std::string, varType> p) {
     auto search = p.find(dest);
     if ( search != p.end()) {
         log("Variable is declared constant therefore can not be reassigned");
-        return;
+        return true;
     }
+    return false;
+
 }
 
-void check_variables(const std::string &dest, std::unordered_map<std::string, varType> p) {
+bool check_heap(const std::string &dest, std::unordered_map<std::string, varType*> p) {
+    auto search = p.find(dest);
+    if (search != p.end()) {
+        log("Variable named already used on heap");
+        return true;
+    }
+    return false;
+}
+
+bool check_variables(const std::string &dest, std::unordered_map<std::string, varType> p) {
     auto search = p.find(dest);
     if ( search != p.end()) {
         log("Variable name already used on stack");
-        return;
+        return true;
     }
+    return false;
 }
+
+
+bool name_exists_anywhere(const std::string& name) {
+    if (variables.count(name) || heap.count(name) || consts.count(name)) {
+        log("Variable name already exists");
+        return true;
+    }
+    return false;
+}
+
+double parseExpression(std::istringstream& iss);
+
+double parseNumber(std::istringstream& iss) {
+    double value;
+    iss >> value;
+    return value;
+}
+
+double parseFactor(std::istringstream& iss) {
+    if (iss.peek() == '(') {
+        iss.get();
+        double val = parseExpression(iss);
+        iss.get();
+        return val;
+    }
+    return parseNumber(iss);
+}
+
+double parseTerm(std::istringstream& iss) {
+    double value = parseFactor(iss);
+
+    while (true) {
+        if (iss.peek() == '*') {
+            iss.get();
+            value *= parseFactor(iss);
+        } else if (iss.peek() == '/') {
+            iss.get();
+            value /= parseFactor(iss);
+        } else {
+            break;
+        }
+    }
+
+    return value;
+}
+
+
+double parseExpression(std::istringstream& iss) {
+    double value = parseTerm(iss);
+
+    while (true) {
+        if ( iss.peek() == '+') {
+            iss.get();
+            value += parseTerm(iss);
+        } else if (iss.peek() == '-') {
+            iss.get();
+            value -= parseTerm(iss);
+        } else { break;
+}
+    }
+    return value;
+}
+
+
+
+
 
 
 
@@ -44,9 +135,17 @@ void moveconstCommand(std::istringstream& iss) {
     std::string val, dest;
     iss >> val >> dest;
 
-    check_const(dest, consts);
-    
-    consts[dest] = val;
+    if (name_exists_anywhere(dest)) return;
+
+    try {
+        consts[dest] = std::stoi(val);
+    } catch (...) {
+        try {
+            consts[dest] = std::stof(val);
+        } catch (...) {
+            consts[dest] = val;
+        }
+    }
 }
         
 
@@ -65,36 +164,60 @@ void moveconstCommand(std::istringstream& iss) {
  */
 
 void moveCommand(std::istringstream& iss) {
-    std::string val, dest;
-    iss >> val >> dest;
+    std::string line;
+    std::getline(iss, line);
 
-    auto search_ = heap.find(dest);
-    if (search_ != heap.end()) {
-        log("Variable name already used on the heap");
+    if (line.empty()) {
+        log("INVALID MOVE syntax");
         return;
     }
 
-    check_const(dest, consts);
+    if (line[0] == ' ') line.erase(0, 1);
 
-    auto search = variables.find(val);
+    size_t lastSpace = line.find_last_of(' ');
+    if (lastSpace == std::string::npos) {
+        log("INVALID MOVE syntax");
+        return;
+    }
+
+    std::string expr = line.substr(0, lastSpace);
+    std::string dest = line.substr(lastSpace + 1);
+
+    if (check_const(dest, consts)) return;
+    if (check_heap(dest, heap)) return;
+
+    try {
+        std::istringstream exprStream(expr);
+        double result = parseExpression(exprStream);
+
+        variables[dest] = result;
+        return;
+    } catch (...) {}
+
+    auto search = variables.find(expr);
     if (search != variables.end()) {
         variables[dest] = search->second;
-    } else {
-        try {
-            int n = std::stoi(val);
-            variables[dest] = n;
-    } catch (...) {
-        try {
-            float f = std::stof(val);
-            variables[dest] = f;
-        } catch (...) {
-            variables[dest] = val;
-        }
+        return;
     }
-  }
 
-}    
+    auto csearch = consts.find(expr);
+    if (csearch != consts.end()) {
+        variables[dest] = csearch->second;
+        return;
+    }
 
+    try {
+        variables[dest] = std::stoi(expr);
+        return;
+    } catch (...) {}
+
+    try {
+        variables[dest] = std::stof(expr);
+        return;
+    } catch (...) {}
+
+    variables[dest] = expr;
+}
 
 
 /*
@@ -113,12 +236,7 @@ void movehCommand(std::istringstream& iss) {
     std::string val, dest;
     iss >> val >> dest;
 
-    auto search_ = variables.find(dest);
-    if ( search_ !=  variables.end()) {
-        log("Variable declared already on the stack");
-        return;
-    }
-
+    if ( check_variables(dest, variables)) return;
 
 
     auto search = heap.find(val);
@@ -148,12 +266,20 @@ void freehCommand(std::istringstream& iss) {
     iss >> varName;
 
     auto search = heap.find(varName);
-    if ( search != heap.end()) {
-        delete search->second;
-        search->second = nullptr;
-        heap.erase(search);
+
+    if ( search == heap.end()) {
+        log("Variable not located on the heap");
+        return;
+    }
+
+
+  
+
+    delete search->second;
+    search->second = nullptr;
+    heap.erase(search);
         
-    } 
+
 }
 
 
@@ -180,6 +306,7 @@ void getCommand(std::istringstream& iss) {
 
     std::string inputValue;
 
+    std::cin >> std::ws; // discard leading white space char
     std::getline(std::cin, inputValue);
 
     // Detect numeric type
@@ -218,7 +345,7 @@ int main() {
     commands["DISPLAY_NEWLINE"] = display_newlineCommand;
     commands["DISPLAY_ENDLINE"] = display_endlineCommand;
     commands["DISPLAY_FLOAT"] = display_floatCommand;
-    //commands["DISPLAY_PI"] = display_pi;
+    //commands["DISPLAY_PI"] = display_pi; THERE IS AN ERROR IN THE CODE!!
     commands["SYSTEM"] = sysCommand;
     commands["SLEEP"] = timesleepCommand;    
     commands["DISPLAY_FLOOR"] = displayFloor;
@@ -230,7 +357,7 @@ int main() {
     functions["CEIL"] = ceilFunc;
     functions["PI"] = piFunc;
     functions["SQRT"] = sqrtFunc;
-    //functions["FLOOR"] = floorFunc;
+    //functions["FLOOR"] = floorFunc; THERE IS AN ERROR IN THIS CODE
 
     std::string line;
     while(std::getline(std::cin, line)) {
