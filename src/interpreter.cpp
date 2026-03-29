@@ -7,6 +7,7 @@
 #include <memory>
 #include <vector>
 #include <algorithm>
+#include <unordered_set>
 
 #include "print.h"
 #include "error_handling.h"
@@ -20,7 +21,14 @@ std::unordered_map<std::string, varType> variables;
 std::unordered_map<std::string, varType*> heap;
 std::unordered_map<std::string, varType> consts;
 
+// keywords
 
+std::unordered_set<std::string> Keywords {
+    "*",
+    "+",
+    "-",
+    "/",
+};
 
 
 
