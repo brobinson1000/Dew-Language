@@ -37,7 +37,14 @@ std::unordered_set<std::string> Keywords {
 
 
 
-
+bool check_keyword(std::unordered_set<std::string> k, const std::string& name) {
+    auto search = k.find(name);
+    if ( search != k.end()) {
+        log("Can not use keyword");
+        return true;
+    }
+    return false;
+}
 
 
 
